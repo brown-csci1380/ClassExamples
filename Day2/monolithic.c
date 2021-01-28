@@ -1,11 +1,12 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
+#include <sys/time.h>
 #include <stdio.h>
 int login (char * userName, char * passwd){
 	
-	sleep(1);
-	if(strcmp(userName,"tbenson")){
+	//sleep(1);
+	if(strcmp(userName,"tbenson")==0){
 		printf("login: user Authenticated\n");
 		return 1;
 	}else{
@@ -18,20 +19,21 @@ int login (char * userName, char * passwd){
 char * getInspirationalMsg(char * userName){
 	printf("getInspirationalMsg: getting msg of the day\n");
 	char * randomData = "This the song that never ends....";
-	sleep(1);
+	//sleep(1);
 	return randomData;
 }
 
 void app(){
-	time_t startTime, endTime; 
-	time ( &startTime );
-	char userName [10];
-	char passwd[11];
+	struct timeval stop, start;
+	gettimeofday(&start, NULL);
+	char userName [10] ="tbenson";
+	char passwd[11] ="cs1380";
 	if(login(userName,passwd)){
 		getInspirationalMsg(userName);
 	}
-	time ( &endTime );
-	printf("Runtime: %ld seconds\n", endTime-startTime);
+	gettimeofday(&stop, NULL);
+	printf("Runtime %lu us\n", (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec); 
+	
 }
 
 
